@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -10,5 +10,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DisplaynameFieldComponent {
-
+  //Input Handling
+  @Output() emitInput = new EventEmitter<string>();
+  InputEvent(event: Event){
+  
+    let displayname = (event.target as HTMLInputElement).value;
+    this.emitInput.emit(displayname);
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Output, signal, EventEmitter } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,5 +16,12 @@ export class PasswordFieldComponent {
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
+  }
+  //Input Handling
+  @Output() emitInput = new EventEmitter<string>();
+  InputEvent(event: Event){
+  
+    let password = (event.target as HTMLInputElement).value;
+    this.emitInput.emit(password);
   }
 }
