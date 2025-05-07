@@ -20,6 +20,5 @@ export const login = (ws: WebSocket,tag: string, password: string): Promise<Logi
     const response = waitForMessage(ws, "login") as Promise<LoginResponse>;
     ws.send(JSON.stringify({request: "/login", data: {tag: tag, password: password}}));
     return response;
-
 } 
 
