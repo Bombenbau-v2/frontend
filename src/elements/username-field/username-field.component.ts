@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -9,4 +14,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrl: './username-field.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsernameFieldComponent {}
+export class UsernameFieldComponent {
+  @Output() enterClickEvent = new EventEmitter<string>();
+  emitDisplayName(usertag: string) {
+    this.enterClickEvent.emit(usertag);
+  }
+}

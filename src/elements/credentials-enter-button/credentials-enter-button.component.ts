@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { waitForMessage, login, register } from '../../app/app.api-handler';
 import shajs from 'sha.js';
 
 @Component({
@@ -12,38 +13,26 @@ export class CredentialsEnterButtonComponent {
   @Input() name = '';
   @Input() requestType = '';
   //User Data
-  private username = 'Test_Man';
-  private usertag = 'testman2';
-  private userpassword = 'blablabla123';
+  private username = '';
+  private usertag = '';
+  private userpassword = '';
 
   //Login/Register Button Logic
   async onClick() {
-    const userhash = shajs("sha256").update(this.userpassword).digest('hex').toUpperCase(); //Convert password to hash
-    console.log(userhash);
+    const userhash = shajs('sha256')
+      .update(this.userpassword)
+      .digest('hex')
+      .toUpperCase(); //Convert password to hash
+
     //Register Button Logic
     if (this.name === 'Register') {
       //Register Request
-      fetch('https://mm-api.dnascanner.de/register', {
-        method: 'POST',
-        body: JSON.stringify({
-          name: this.username,
-          tag: this.usertag,
-          password: userhash,
-        }),
-      });
-    } else if (this.name === 'Login') { //Login Button Logic
-      const ws = new WebSocket('wss://mm-api.dnascanner.de'); //Login Websocket
-      await new Promise<void>(
-        (resolve) =>
-          (ws.onopen = () => {
-            resolve();
-          })
-      );
-      ws.onmessage = (e) => console.log(e.data);
-      ws.onclose = () => console.log('CLOSED');
-      ws.onerror = (e) => console.log('ERROR', e);
-      ws.onmessage = (e) => {};
-      ws.send(JSON.stringify({request: "/login", data: {tag: this.usertag, password: userhash}}))
+      register(this.username, this.usertag, userhash);
+    } else if (this.name === 'Login') {
+      //Login Button Logic
+      const ws = new WebSocket('wss://hm-api.dnascanner.de'); //Login Websocket
+      await new Promise<void>((resolve) => (ws.onopen = () => resolve));
+      login(ws, this.usertag, userhash);
     }
   }
 }

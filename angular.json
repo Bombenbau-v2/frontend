@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "DinoMessanger-Frontend": {
+    "DinoMessenger-Frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/dino-messanger-frontend",
+            "outputPath": "dist/dino-messenger-frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "DinoMessanger-Frontend:build:production"
+              "buildTarget": "DinoMessenger-Frontend:build:production"
             },
             "development": {
-              "buildTarget": "DinoMessanger-Frontend:build:development"
+              "buildTarget": "DinoMessenger-Frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
