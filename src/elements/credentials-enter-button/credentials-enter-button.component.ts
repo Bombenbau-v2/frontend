@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, Input, inject, Injectable } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import shajs from 'sha.js';
 
 @Component({
   selector: 'app-credentials-enter-button',
@@ -7,15 +7,43 @@ import { Component, Input, inject, Injectable } from '@angular/core';
   templateUrl: './credentials-enter-button.component.html',
   styleUrl: './credentials-enter-button.component.scss',
 })
-// @Injectable({ providedIn: 'root' })
 export class CredentialsEnterButtonComponent {
-  // private http = inject(HttpClient);
-  // @Input() name = '';
-  // private testname = "testman";
-  // private testtag = "testtag";
-  // private testhash = "D3B778A25E5B1CC6B5386EE2E44395235D669B8E0117FC81B5089534B9F85165";
-  // onClick() {
-  //   console.log("clicK");
-  //   this.http.post('http://localhost:6969/register',{name: this.testname, tag: this.testtag, hash: this.testhash}).subscribe();
-  // }
+  //Properties
+  @Input() name = '';
+  @Input() requestType = '';
+  //User Data
+  private username = 'Test Man';
+  private usertag = 'testman2';
+  private userpassword = 'blablabla123';
+
+  //Login/Register Button Logic
+  async onClick() {
+    const userhash = shajs("sha256").update(this.userpassword).digest('hex'); //Convert password to hash
+    console.log(userhash);
+    //Register Button Logic
+    if (this.name === 'Register') {
+      //Register Request
+      fetch('https://mm-api.dnascanner.de/register', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: this.username,
+          tag: this.usertag,
+          hash: userhash,
+        }),
+      });
+    } else if (this.name === 'Login') { //Login Button Logic
+      const ws = new WebSocket('wss://mm-api.dnascanner.de'); //Login Websocket
+      await new Promise<void>(
+        (resolve) =>
+          (ws.onopen = () => {
+            resolve();
+          })
+      );
+      ws.onmessage = (e) => console.log(e.data);
+      ws.onclose = () => console.log('CLOSED');
+      ws.onerror = (e) => console.log('ERROR', e);
+
+      ws.send(JSON.stringify({request: "/login", data: {tag: this.usertag, password: userhash}}))
+    }
+  }
 }
