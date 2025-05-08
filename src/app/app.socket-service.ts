@@ -1,51 +1,53 @@
-import { P } from '@angular/cdk/keycodes';
-import { Injectable, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import {Injectable, inject} from "@angular/core";
+import {Router} from "@angular/router";
 
 @Injectable({
-  providedIn: 'root',
+	providedIn: "root",
 })
 export class SocketService {
-  socket: WebSocket;
-  isOpen: boolean = false;
-  router = inject(Router);
+	public socket: WebSocket;
+	private _isOpen: boolean;
+	public router = inject(Router);
 
-  constructor() {
-    this.socket = new WebSocket('wss://hm-api.dnascanner.de');
+	constructor() {
+		this._isOpen = false;
+		this.socket = new WebSocket("wss://mm-api.dnascanner.de");
 
-    // (async () => {
-    //   while (true) {
-    //     await new Promise((resolve) => setTimeout(resolve, 100));
-    //     console.log('isOpen?', this.isOpen);
-    //   }
-    // })();
+		this.initialize();
+	}
 
-    // this.initializeSocket();
-  }
+	private initialize = async () => {
+		return await new Promise((resolve) => {
+			this.socket.addEventListener("open", () => {
+				this._isOpen = true;
+				resolve(true);
+			});
 
-  public setIsOpen(isOpen: boolean) {
-    this.isOpen = isOpen;
-  }
-  public isOpenMethod(): boolean {
-    this.setIsOpen(true);
-    return this.isOpen;
-  }
+			this.socket.addEventListener("close", (event) => {
+				console.log("Socket closed: ", event);
+			});
 
-  private async initializeSocket() {
-    await new Promise<void>(
-      (resolve) => (this.socket.onopen = () => resolve())
-    );
-    this.isOpen = true;
-    this.socket.onmessage = (event: MessageEvent) => {
-      if (event.data === 'unauthorized') {
-        this.router.navigate(['/login']);
-      }
-    };
-    this.socket.onclose = (event: CloseEvent) => {
-      console.log('Socket closed:', event);
-    };
-    this.socket.onerror = (event: Event) => {
-      console.error('Socket error:', event);
-    };
-  }
+			this.socket.addEventListener("error", (event) => {
+				console.log("Socket error: ", event);
+			});
+
+			this.socket.addEventListener("message", (event) => {
+				// console.log("Socket message: ", event.data);
+			});
+		});
+	};
+
+	public isOpen = (): boolean => {
+		return this._isOpen;
+	};
+
+	public waitOpen = async (): Promise<boolean> => {
+		return await new Promise<boolean>(async (resolve) => {
+			while (!this._isOpen) {
+				await new Promise((resolve) => setTimeout(resolve, 10));
+			}
+
+			resolve(true);
+		});
+	};
 }
