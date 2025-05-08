@@ -44,12 +44,12 @@ export class SocketService {
       });
       //Hash password
       const passwordHash = shajs("sha256")
-        .update("testmann2")
+        .update("test")
         .digest("hex")
         .toUpperCase();
       // Ensure websocket is open
       await this.waitOpen();
-      const responseLogin = await login(this.socket, "testmann2", passwordHash);
+      const responseLogin = await login(this.socket, "test", passwordHash);
     });
   };
 

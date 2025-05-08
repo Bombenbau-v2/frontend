@@ -1,0 +1,19 @@
+<div *ngIf="enabled" class="conversation-list">
+  <div class="conversation-card" *ngFor="let conversation of conversations">
+    <a>
+      <div class="horizontalflex">
+        <div class="avatar-container">
+          <img
+            class="avatar"
+            src="https://mm-api.dnascanner.de/avatar/{{ conversation.usertag }}"
+            alt="Avatar"
+          />
+        </div>
+        <div class="names-container">
+          <p class="username">{{ conversation.displayname }}</p>
+          <p class="usertag">{{ conversation.usertag }}</p>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

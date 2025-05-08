@@ -1,0 +1,17 @@
+<div *ngIf="enabled" class="new-conversation-card">
+  <a>
+    <div class="horizontalflex">
+      <div class="avatar-container">
+        <img
+          class="avatar"
+          src="https://mm-api.dnascanner.de/avatar/{{ userTag }}"
+          alt="Avatar"
+        />
+      </div>
+      <div class="names-container">
+        <p class="username">{{ displayName }}</p>
+        <p class="usertag">{{ userTag }}</p>
+      </div>
+    </div>
+  </a>
+</div>

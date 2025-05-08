@@ -7,12 +7,14 @@ import { userExistByTag, login } from "../../app/app.api-handler";
 import { setTokenSourceMapRange } from "typescript";
 import shajs from "sha.js";
 import { S } from "@angular/cdk/keycodes";
+import { ConversationListComponent } from "../conversation-list/conversation-list.component";
+import { NewConversationComponent } from "../../elements/new-conversation/new-conversation.component";
 
 @Component({
   selector: "app-chat-sidebar",
-  imports: [ChatSidebarSearchbarComponent, ChatSidebarSearchButtonComponent],
+  imports: [ChatSidebarSearchbarComponent, ChatSidebarSearchButtonComponent, ConversationListComponent, NewConversationComponent],
   templateUrl: "./chat-sidebar.component.html",
-  styleUrl: "./chat-sidebar.component.scss",
+  styleUrl: "./chat-sidebar.component.scss"
 })
 export class ChatSidebarComponent {
   //Constants & Variables
@@ -35,8 +37,7 @@ export class ChatSidebarComponent {
       clearTimeout(this.tsLastCheck);
     }
     this.tsLastCheck = setTimeout(async () => {
-
-      const response = await userExistByTag(this.ws!, this.currentInput);
+    const response = await userExistByTag(this.ws!, this.currentInput);
       if (response.exists) {
         this.searchIs = false;
       }else {

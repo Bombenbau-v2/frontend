@@ -1,6 +1,6 @@
 .sidebar {
     background-color: #353a41;
-    height: 95.5vh;
+    height: 100%;
     padding: 1rem;
 }
 .search-flex{
@@ -9,7 +9,9 @@
     flex-direction: row;
     justify-content: center;
     gap: 1rem;
+    margin-bottom: 1rem;
 }
 :host {
     width: 20%;
+    height: 100%;
 }

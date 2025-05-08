@@ -41,13 +41,16 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  background: none;
 }
 .verticalflex {
   display: flex;
   flex-direction: column;
+  background: none;
 }
 
 .horizontalflex {
   display: flex;
   flex-direction: row;
+  background: none;
 }
