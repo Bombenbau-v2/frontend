@@ -2,7 +2,7 @@ import {Component, inject, ChangeDetectionStrategy} from "@angular/core";
 import {UsernameFieldComponent} from "../../elements/username-field/username-field.component";
 import {PasswordFieldComponent} from "../../elements/password-field/password-field.component";
 import {CredentialsEnterButtonComponent} from "../../elements/credentials-enter-button/credentials-enter-button.component";
-import {login} from "../../app/app.api-handler";
+import {login, userExistByTag} from "../../app/app.api-handler";
 import shajs from "sha.js";
 import {SocketService} from "../../app/app.socket-service";
 import {Router} from "@angular/router";
@@ -37,9 +37,9 @@ export class LoginFieldComponent {
 		await this.waitOpen();
 
 		// Send login request
-		console.log("BUTTON login_response:before");
 		const response = await login(this.ws!, this.usertag, passwordHash);
-		console.log("BUTTON login_response:after");
+
+		console.log("Login", response.success ? "successful" : "failed");
 	}
 
 	//Emitted usertag and password from Input fields

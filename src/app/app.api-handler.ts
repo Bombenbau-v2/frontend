@@ -3,24 +3,13 @@ import {RegisterResponse} from "../../../backend/types/http";
 
 //await message response
 export const waitForMessage = async (ws: WebSocket, concern: string): Promise<any> => {
-	// return await new Promise((resolve) => {
-	// 	const handler = (data: any) => {
-	// 		const response = JSON.parse(data.toString());
-	//     console.log("waitForMessage", response);
-	// 		if (response.concern === concern) {
-	// 			ws.removeEventListener("message", handler);
-	// 			resolve(response);
-	// 		}
-	// 		ws.addEventListener("message", handler);
-	// 	};
-	// });
-
 	return await new Promise((resolve) => {
 		const handler = (data: any) => {
 			const response = JSON.parse(data.data);
 
 			if (response.concern === concern) {
-				console.log(response);
+				ws.removeEventListener("message", handler);
+				resolve(response);
 			}
 		};
 
@@ -50,7 +39,7 @@ export const login = (ws: WebSocket, tag: string, password: string): Promise<Log
 	return response;
 };
 
-export const userExistByTag = async (ws: WebSocket, tag: string): Promise<boolean> => {
+export const userExistByTag = async (ws: WebSocket, tag: string): Promise<UserExistByTagResponse> => {
 	// Set up response handler
 	const response = waitForMessage(ws, "user_exist_by_tag") as Promise<UserExistByTagResponse>;
 
@@ -67,7 +56,7 @@ export const userExistByTag = async (ws: WebSocket, tag: string): Promise<boolea
 	);
 
 	// Return response promise
-	return false; // ======================================================== IMPLEMENT LOGIC ============================================
+	return response;
 };
 
 export const register = async (name: string, tag: string, password: string): Promise<RegisterResponse> => {

@@ -32,6 +32,11 @@ export class SocketService {
 			});
 
 			this.socket.addEventListener("message", (event) => {
+				if (event.data === "unauthorized") {
+					console.log("Unauthorized, redirecting to login page");
+					// this.router.navigate(["/login"]);
+				}
+
 				// console.log("Socket message: ", event.data);
 			});
 		});
