@@ -3,8 +3,8 @@
     <app-chat-sidebar-searchbar (inputEmitter)="inputReceived($event)">
     </app-chat-sidebar-searchbar>
       <app-chat-sidebar-search-button
-        [isSearch]="true"
-        (emitClick)="clickReceived($event)"
+        [isSearch]=searchIs
+        (emitClick)="clickReceived()"
       ></app-chat-sidebar-search-button>
   </div>
 </div>

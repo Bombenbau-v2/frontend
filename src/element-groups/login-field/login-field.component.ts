@@ -40,7 +40,7 @@ export class LoginFieldComponent {
 		const response = await login(this.ws!, this.usertag, passwordHash);
 
 		console.log("Login", response.success ? "successful" : "failed");
-	}
+}
 
 	//Emitted usertag and password from Input fields
 	usertagEmitted(usertag: string) {

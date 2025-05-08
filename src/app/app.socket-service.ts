@@ -1,58 +1,69 @@
-import {Injectable, inject} from "@angular/core";
-import {Router} from "@angular/router";
+import { Injectable, inject } from "@angular/core";
+import { Router } from "@angular/router";
+import { login } from "./app.api-handler";
+import shajs from "sha.js";
+import { waitForMessage } from "./app.api-handler";
 
 @Injectable({
-	providedIn: "root",
+  providedIn: "root",
 })
 export class SocketService {
-	public socket: WebSocket;
-	private _isOpen: boolean;
-	public router = inject(Router);
+  public socket: WebSocket;
+  private _isOpen: boolean;
+  public router = inject(Router);
 
-	constructor() {
-		this._isOpen = false;
-		this.socket = new WebSocket("wss://mm-api.dnascanner.de");
+  constructor() {
+    this._isOpen = false;
+    this.socket = new WebSocket("wss://mm-api.dnascanner.de");
 
-		this.initialize();
-	}
+    this.initialize();
+  }
 
-	private initialize = async () => {
-		return await new Promise((resolve) => {
-			this.socket.addEventListener("open", () => {
-				this._isOpen = true;
-				resolve(true);
-			});
+  private initialize = async () => {
+    return await new Promise(async (resolve) => {
+      this.socket.addEventListener("open", () => {
+        this._isOpen = true;
+        resolve(true);
+      });
 
-			this.socket.addEventListener("close", (event) => {
-				console.log("Socket closed: ", event);
-			});
+      this.socket.addEventListener("close", (event) => {
+        console.log("Socket closed: ", event);
+      });
 
-			this.socket.addEventListener("error", (event) => {
-				console.log("Socket error: ", event);
-			});
+      this.socket.addEventListener("error", (event) => {
+        console.log("Socket error: ", event);
+      });
 
-			this.socket.addEventListener("message", (event) => {
-				if (event.data === "unauthorized") {
-					console.log("Unauthorized, redirecting to login page");
-					// this.router.navigate(["/login"]);
-				}
+      this.socket.addEventListener("message", (event) => {
+        if (event.data === "unauthorized") {
+          console.log("Unauthorized, redirecting to login page");
+          // this.router.navigate(["/login"]);
+        }
 
-				// console.log("Socket message: ", event.data);
-			});
-		});
-	};
+        // console.log("Socket message: ", event.data);
+      });
+      //Hash password
+      const passwordHash = shajs("sha256")
+        .update("testmann2")
+        .digest("hex")
+        .toUpperCase();
+      // Ensure websocket is open
+      await this.waitOpen();
+      const responseLogin = await login(this.socket, "testmann2", passwordHash);
+    });
+  };
 
-	public isOpen = (): boolean => {
-		return this._isOpen;
-	};
+  public isOpen = (): boolean => {
+    return this._isOpen;
+  };
 
-	public waitOpen = async (): Promise<boolean> => {
-		return await new Promise<boolean>(async (resolve) => {
-			while (!this._isOpen) {
-				await new Promise((resolve) => setTimeout(resolve, 10));
-			}
+  public waitOpen = async (): Promise<boolean> => {
+    return await new Promise<boolean>(async (resolve) => {
+      while (!this._isOpen) {
+        await new Promise((resolve) => setTimeout(resolve, 10));
+      }
 
-			resolve(true);
-		});
-	};
+      resolve(true);
+    });
+  };
 }
