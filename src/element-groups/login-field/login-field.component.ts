@@ -33,10 +33,10 @@ export class LoginFieldComponent {
 		// Hash the password
 		const passwordHash = shajs("sha256").update(this.userpassword).digest("hex").toUpperCase();
 
-    // Ensure websocket is open
+		// Ensure websocket is open
 		await this.waitOpen();
 
-    // Send login request
+		// Send login request
 		console.log("BUTTON login_response:before");
 		const response = await login(this.ws!, this.usertag, passwordHash);
 		console.log("BUTTON login_response:after");

@@ -1,4 +1,4 @@
-import {LoginResponse, type LoginRequest, type SocketRequest} from "../../../backend/types/ws";
+import {LoginResponse, type LoginRequest, type SocketRequest, type UserExistByTagRequest, type UserExistByTagResponse} from "../../../backend/types/ws";
 import {RegisterResponse} from "../../../backend/types/http";
 
 //await message response
@@ -19,9 +19,9 @@ export const waitForMessage = async (ws: WebSocket, concern: string): Promise<an
 		const handler = (data: any) => {
 			const response = JSON.parse(data.data);
 
-      if (response.concern === concern) {
-        console.log(response)
-      }
+			if (response.concern === concern) {
+				console.log(response);
+			}
 		};
 
 		ws.addEventListener("message", handler);
@@ -48,6 +48,26 @@ export const login = (ws: WebSocket, tag: string, password: string): Promise<Log
 
 	// Return response promise
 	return response;
+};
+
+export const userExistByTag = async (ws: WebSocket, tag: string): Promise<boolean> => {
+	// Set up response handler
+	const response = waitForMessage(ws, "user_exist_by_tag") as Promise<UserExistByTagResponse>;
+
+	// Send request
+	const request: UserExistByTagRequest = {
+		tag: tag,
+	};
+
+	ws.send(
+		JSON.stringify({
+			request: "/user_exist_by_tag",
+			data: request,
+		} as SocketRequest)
+	);
+
+	// Return response promise
+	return false; // ======================================================== IMPLEMENT LOGIC ============================================
 };
 
 export const register = async (name: string, tag: string, password: string): Promise<RegisterResponse> => {
