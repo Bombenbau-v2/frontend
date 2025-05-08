@@ -1,7 +1,9 @@
 <div class="login-field">
   <p class="header2">Log in to chat</p>
-  <app-username-field (emitInput) = "usertagEmitted($event)"></app-username-field>
-  <app-password-field (emitInput) = "passwordEmitted($event)"></app-password-field>
+  <app-username-field (emitInput)="usertagEmitted($event)"></app-username-field>
+  <app-password-field
+    (emitInput)="passwordEmitted($event)"
+  ></app-password-field>
   <div class="centerhorizontal">
     <app-credentials-enter-button
       name="Login"

@@ -1,0 +1,12 @@
+.enter-button {
+  display: flex;
+  justify-content: center;
+  background-color: #e9eaed;
+  outline: 2px solid #f4faff;
+  border-radius: 3px;
+  padding: 0.2rem 2rem;
+  border: none;
+  & > img {
+    background-color: #e9eaed;
+  }
+}

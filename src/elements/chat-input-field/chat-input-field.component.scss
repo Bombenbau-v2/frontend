@@ -27,10 +27,17 @@
 }
 
 .chat-field-div {
-    width: 100%;
+    width: 60%;
     display: flex;
     flex-direction: row;
     justify-content: center;
     gap: 3rem;
+    position: relative;
+    height: fit-content
   }
   
+:host {
+   display: flex;
+   width: 100%;
+   justify-content: center;
+}

@@ -1,0 +1,28 @@
+.search-button,
+.add-button {
+  outline: 3px solid;
+  border-radius: 3px;
+  border: none;
+  align-items: center;
+  aspect-ratio: 1/1;
+  height: 90%;
+  width: 90%;
+}
+
+.search-button {
+  background-color: #93acff;
+  outline-color: #accbff;
+  & > img {
+    background-color: #93acff;
+  }
+}
+
+.add-button {
+  background-color: #a1ff79;
+  outline-color: #b6ff87;
+  border-radius: 3px;
+  & > img {
+    background-color: #a1ff79;
+    
+  }
+}

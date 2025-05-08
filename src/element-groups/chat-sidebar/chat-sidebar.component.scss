@@ -1,13 +1,15 @@
 .sidebar {
     background-color: #353a41;
-    width: 20%;
     height: 95.5vh;
     padding: 1rem;
 }
-.buttonDiv {
+.search-flex{
     background-color: #353a41;
     display: flex;
-    flex: row;
-    gap: 2rem;
+    flex-direction: row;
     justify-content: center;
+    gap: 1rem;
+}
+:host {
+    width: 20%;
 }

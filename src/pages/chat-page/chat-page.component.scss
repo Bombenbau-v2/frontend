@@ -2,6 +2,7 @@ html,body {
     height: 100%;
 }
 .chat-container {
-    flex: row;
-    height: 100%;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
 }

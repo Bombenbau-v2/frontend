@@ -1,3 +1,7 @@
-<button (click)="onClick()" class = "enter-button">
-    <img src={{imgSrc}}>
+<button *ngIf = "isSearch" (click)="onClick()" class="search-button">
+  <img src="/assets/icons/search.svg"  />
+</button>
+
+<button *ngIf = "!isSearch" (click)="onClick()" class="add-button">
+  <img src="/assets/icons/person_add.svg" />
 </button>
