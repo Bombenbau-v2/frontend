@@ -1,4 +1,4 @@
-import { Component, resolveForwardRef } from "@angular/core";
+import { Component, Output, resolveForwardRef } from "@angular/core";
 import { ChatSidebarSearchbarComponent } from "../../elements/chat-sidebar-searchbar/chat-sidebar-searchbar.component";
 import { ChatSidebarSearchButtonComponent } from "../../elements/chat-sidebar-search-button/chat-sidebar-search-button.component";
 import { SocketService } from "../../app/app.socket-service";
@@ -10,14 +10,12 @@ import { S } from "@angular/cdk/keycodes";
 import { ConversationListComponent } from "../conversation-list/conversation-list.component";
 import { NewConversationComponent } from "../../elements/new-conversation/new-conversation.component";
 import { Conversation } from "../conversation-list/conversation-list.component";
+import { EventEmitter } from "@angular/core";
+import { ClientUser } from "../../../../backend/types/misc";
+
 @Component({
   selector: "app-chat-sidebar",
-  imports: [
-    ChatSidebarSearchbarComponent,
-    ChatSidebarSearchButtonComponent,
-    ConversationListComponent,
-    NewConversationComponent,
-  ],
+  imports: [ChatSidebarSearchbarComponent, ChatSidebarSearchButtonComponent, ConversationListComponent, NewConversationComponent],
   templateUrl: "./chat-sidebar.component.html",
   styleUrl: "./chat-sidebar.component.scss",
 })
@@ -37,6 +35,11 @@ export class ChatSidebarComponent {
   public currentInput: string = "";
   tsLastCheck: NodeJS.Timeout | null = null;
   searchIs: boolean = true;
+  //New Conversation User
+  public newConversationUser: ClientUser = {name:"",tag:""};
+
+  //Output
+  @Output() emitConversationRequest = new EventEmitter<string>;
 
   //Get Websocket
   constructor(socketService: SocketService) {
@@ -55,21 +58,17 @@ export class ChatSidebarComponent {
     }
     this.tsLastCheck = setTimeout(async () => {
       //Update conversations list to filter to input
-      this.conversations = await this.listFilteredConversations(
-        this.currentInput
-      );
+      this.conversations = await this.listFilteredConversations(this.currentInput);
 
-      if ( //check if user is already in conversations list: if not, check user exisetence
-        !this.conversations.some(
-          (e) =>
-            e.usertag.toLocaleLowerCase() ==
-            this.currentInput.toLocaleLowerCase()
-        )
+      if (
+        //check if user is already in conversations list: if not, check user exisetence
+        !this.conversations.some((e) => e.usertag.toLocaleLowerCase() == this.currentInput.toLocaleLowerCase())
       ) {
         //Check user exisetence
         const response = await userExistByTag(this.ws!, this.currentInput);
         if (response.exists) {
           this.searchIs = false;
+          this.newConversationUser = response.user!;
         } else {
           this.searchIs = true;
         }
@@ -78,18 +77,19 @@ export class ChatSidebarComponent {
   }
 
   //Click logic
-  async clickReceived() {}
+  async clickReceived(
+    
+  ) {}
+
+  //Conversation Click Logic
+  conversationClickReceived(userTag: string){
+    this.emitConversationRequest.emit(userTag);
+  }
 
   //Filter list of conversations down to only those including the search query
-  listFilteredConversations = async (
-    filter: string
-  ): Promise<Conversation[]> => {
+  listFilteredConversations = async (filter: string): Promise<Conversation[]> => {
     let fullConversations = await this.listFormattedConversations();
-    let filteredConversations = fullConversations.filter(
-      (e) =>
-        e.usertag.toLowerCase().includes(filter.toLowerCase()) ||
-        e.displayname.toLowerCase().includes(filter.toLowerCase())
-    );
+    let filteredConversations = fullConversations.filter((e) => e.usertag.toLowerCase().includes(filter.toLowerCase()) || e.displayname.toLowerCase().includes(filter.toLowerCase()));
     return filteredConversations;
   };
 
@@ -105,7 +105,7 @@ export class ChatSidebarComponent {
           displayname: conversation.participant.name,
           usertag: conversation.participant.tag,
           lastmessagetext: conversation.lastMessage.text,
-          lastmessagesender: conversation.lastMessage.sender,
+          lastmessagesender: conversation.lastMessage.sender.tag,
         });
       }
       return returnConversation;

@@ -7,6 +7,6 @@
         (emitClick)="clickReceived()"
       ></app-chat-sidebar-search-button>
   </div>
-  <app-new-conversation [enabled]=!searchIs></app-new-conversation>
-  <app-conversation-list [conversations]="conversations" [enabled]=searchIs></app-conversation-list>
+  <app-new-conversation [displayName]="newConversationUser.name" [userTag]="newConversationUser.tag" [enabled]=!searchIs></app-new-conversation>
+  <app-conversation-list (convEmitter)="conversationClickReceived($event)" [conversations]="conversations" [enabled]=searchIs></app-conversation-list>
 </div>

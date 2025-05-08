@@ -1,4 +1,4 @@
 <div class="chat-container">
-  <app-chat-sidebar></app-chat-sidebar>
-  <app-chat></app-chat>
+  <app-chat-sidebar  (emitConversationRequest)="conversationClicked($event)"></app-chat-sidebar>
+  <app-chat (convChange)="conversationChanged()" [conversation]="conversation"></app-chat>
 </div>

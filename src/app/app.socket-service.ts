@@ -11,10 +11,11 @@ export class SocketService {
   public socket: WebSocket;
   private _isOpen: boolean;
   public router = inject(Router);
+  private _userTag: string = "";
 
   constructor() {
     this._isOpen = false;
-    this.socket = new WebSocket("wss://hm-api.dnascanner.de");
+    this.socket = new WebSocket("ws://localhost:6969/");
 
     this.initialize();
   }
@@ -37,7 +38,7 @@ export class SocketService {
       this.socket.addEventListener("message", (event) => {
         if (event.data === "unauthorized") {
           console.log("Unauthorized, redirecting to login page");
-          // this.router.navigate(["/login"]);
+          this.router.navigate(["/login","unauthorized"]);
         }
 
         // console.log("Socket message: ", event.data);
@@ -49,6 +50,15 @@ export class SocketService {
     return this._isOpen;
   };
 
+  public setUserTag = (tag: string): void => {
+    this._userTag = tag;
+  }
+
+  public getUserTag = (): string => {
+    return this._userTag;
+  }
+
+  
   public waitOpen = async (): Promise<boolean> => {
     return await new Promise<boolean>(async (resolve) => {
       while (!this._isOpen) {

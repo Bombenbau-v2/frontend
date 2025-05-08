@@ -1,18 +1,40 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 import { ChatInputFieldComponent } from "../../elements/chat-input-field/chat-input-field.component";
+import { ConversationComponent } from "../../elements/conversation/conversation.component";
+import { ClientConversation, ClientMessage } from "../../../../backend/types/misc";
+import { formattedMessage } from "../../elements/conversation/conversation.component";
+import { SendMessageRequest } from "../../../../backend/types/ws";
+import { SocketService } from "../../app/app.socket-service";
+import { getConversationRequest, sendMessageRequest } from "../../app/app.api-handler";
+import { GetConversationRequest } from "../../../../backend/types/ws";
+import { Input,Output,EventEmitter } from "@angular/core";
 
 @Component({
-  selector: 'app-chat',
-  imports: [ChatInputFieldComponent],
-  templateUrl: './chat.component.html',
-  styleUrl: './chat.component.scss'
+  selector: "app-chat",
+  imports: [ChatInputFieldComponent, ConversationComponent],
+  templateUrl: "./chat.component.html",
+  styleUrl: "./chat.component.scss",
 })
 export class ChatComponent {
+  currentMessages: ClientMessage[] = [];
   private messageSent: string = "";
-
-  receiveInput(input: string){
-    this.messageSent = input;
-    console.log(this.messageSent);
+  private messageReceipient: string = "dnascanner";
+  //Placeholder conversation
+  @Input() conversation: ClientConversation = {
+    participants: [{name: "", tag: ""},{name: "", tag: ""}],
+    messages: [],
+  };
+  @Output() convChange = new EventEmitter<any>;
+  ws: WebSocket | undefined;
+  constructor(socketService: SocketService) {
+    this.ws = socketService.socket;
   }
-
+  //Receive Input
+  async receiveInput(input: string) {
+    this.messageSent = input;
+    // Send message request
+    const response = await sendMessageRequest(this.ws!, this.messageSent, this.messageReceipient);
+    this.convChange.emit();
+    console.log(response);
+  }
 }

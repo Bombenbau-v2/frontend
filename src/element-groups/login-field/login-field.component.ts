@@ -6,6 +6,7 @@ import { login, userExistByTag } from "../../app/app.api-handler";
 import shajs from "sha.js";
 import { SocketService } from "../../app/app.socket-service";
 import { Router } from "@angular/router";
+import { RouterStateSnapshot } from "@angular/router";
 
 @Component({
   selector: "app-login-field",
@@ -20,6 +21,7 @@ import { Router } from "@angular/router";
 export class LoginFieldComponent {
   private usertag = "";
   private userpassword = "";
+  private setUserTag: (tag: string) => void;
   private router = inject(Router);
   failMessage = "";
   successMessage = "";
@@ -34,6 +36,7 @@ export class LoginFieldComponent {
     this.ws = socketService.socket;
     this.isOpen = socketService.isOpen;
     this.waitOpen = socketService.waitOpen;
+	this.setUserTag = socketService.setUserTag;
   }
 
   async buttonClicked() {
@@ -56,6 +59,7 @@ export class LoginFieldComponent {
       this.failMessage = "";
       this.passwordFail = false;
       this.usertagFail = false;
+	  this.setUserTag(this.usertag);
       setTimeout(() => this.router.navigate(["/chat"]), 600);
     } else if (response.error) {
       switch (response.error) {
@@ -106,6 +110,13 @@ export class LoginFieldComponent {
     }
   }
 
+  ngOnInit() {
+  // Access route parameter
+	
+	if(this.router.url === "/login/unauthorized"){
+		this.failMessage = "Unauthorized: You have been redirected. Please log in.";
+	}
+  }
   //Emitted usertag and password from Input fields
   usertagEmitted(usertag: string) {
     this.usertag = usertag;

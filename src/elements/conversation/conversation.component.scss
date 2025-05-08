@@ -1,0 +1,55 @@
+.textBox{
+    display:flex;
+    flex-direction: column;
+    justify-content: left;
+    gap: 0.4rem;
+}
+.messageBox{
+    display:flex;
+    flex-direction: row;
+    justify-content: left;
+    gap: 0.6rem;
+}
+.diplayname {
+  color: #e9eaed;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  margin: 0px;
+}
+.messagetext{
+  color: #e9eaed;
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  margin: 0px;
+}
+.messagedate {
+  color: #e9eaed;
+  font-family: "Inter", sans-serif;
+  font-weight: 200;
+  font-size: 12px;
+  margin: 0px;
+  margin-top:auto;
+}
+
+.namediv{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    gap: 0.5rem;
+}
+
+img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: none;
+}
+
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    margin-bottom: 2rem;
+}

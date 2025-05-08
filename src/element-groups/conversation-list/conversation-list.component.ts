@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input,Output } from "@angular/core";
 import { NgFor, NgIf } from "@angular/common";
 import { SocketService } from "../../app/app.socket-service";
 
@@ -21,6 +21,7 @@ export class ConversationListComponent {
   //If the element is disabled
   @Input() enabled: boolean = true;
   @Input() conversations: Conversation[] = [];
+  @Output() convEmitter = new EventEmitter<string>;
 
   ws: WebSocket | undefined;
   waitOpen: () => Promise<boolean>;
@@ -30,5 +31,7 @@ export class ConversationListComponent {
     this.waitOpen = socketService.waitOpen;
   }
 
-
+  onClick(conv: Conversation){
+    this.convEmitter.emit(conv.usertag);
+  }
 }

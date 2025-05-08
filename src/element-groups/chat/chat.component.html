@@ -1,5 +1,6 @@
 <div class="centerhorizontal chatfieldwrapper">
-      <app-chat-input-field
-        (inputEmitter)="receiveInput($event)"
-      ></app-chat-input-field>
+  <app-conversation [conversation]="conversation"></app-conversation>
+  <app-chat-input-field
+    (inputEmitter)="receiveInput($event)"
+  ></app-chat-input-field>
 </div>

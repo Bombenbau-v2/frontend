@@ -1,0 +1,10 @@
+<div *ngFor="let message of currentMessages" class="messageBox">
+  <img src="http://localhost:6969/avatar/{{ message.senderTag }}" />
+  <div class="textBox">
+    <div class="namediv">
+      <p class="diplayname">{{ message.sender }}</p>
+      <p class="messagedate">at {{ message.time }}</p>
+    </div>
+    <p class="messagetext">{{ message.text }}</p>
+  </div>
+</div>
