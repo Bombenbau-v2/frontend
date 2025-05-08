@@ -1,0 +1,36 @@
+.chat-field {
+    color: #e9eaed;
+    offset-position: bottom;
+    margin-bottom: 1rem;
+    background-color: rgba(244, 250, 255, 0.08);
+    width: 100%;
+    align-self: center;
+    & .chat-field-text {
+      color: #e9eaed;
+      font-family: "Inter", sans-serif;
+      font-style: italic;
+      font-weight: 300;
+      width: 100%;
+    }
+    & .input-text {
+      color: #e9eaed;
+      font-family: "Inter", sans-serif;
+      font-size: 16px;
+      font-weight: 300;
+      width: 100%;
+      border: solid;
+      border-width: 2px;
+      border-radius: 5px;
+      line-height: 1.8rem;
+    }
+
+}
+
+.chat-field-div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 3rem;
+  }
+  

@@ -1,0 +1,13 @@
+<div class="sidebar">
+  <div class="buttonDiv">
+    <app-chat-sidebar-search-button
+      [isSearch]="true"
+      (emitClick)="clickReceived($event)"
+    ></app-chat-sidebar-search-button>
+    <app-chat-sidebar-search-button
+      [isSearch]="false"
+      (emitClick)="clickReceived($event)"
+    ></app-chat-sidebar-search-button>
+  </div>
+  <app-chat-sidebar-searchbar (inputEmitter)="inputReceived($event)"> </app-chat-sidebar-searchbar>
+</div>

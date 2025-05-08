@@ -1,0 +1,6 @@
+<div class="chat-field-div">
+  <form class="chat-field">
+    <input (input)="InputEvent($event)" class="input-text" />
+  </form>
+  <app-chat-enter-button (buttonClickEmitter)="sendMessage()"></app-chat-enter-button>
+</div>
