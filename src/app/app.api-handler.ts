@@ -60,7 +60,7 @@ export const userExistByTag = async (ws: WebSocket, tag: string): Promise<UserEx
 };
 
 export const register = async (name: string, tag: string, password: string): Promise<RegisterResponse> => {
-	const response = await fetch("https://mm-api.dnascanner.de/register", {
+	const response = await fetch("https://hm-api.dnascanner.de/register", {
 		method: "POST",
 		body: JSON.stringify({
 			name: name,

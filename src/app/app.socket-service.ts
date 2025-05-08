@@ -14,7 +14,7 @@ export class SocketService {
 
   constructor() {
     this._isOpen = false;
-    this.socket = new WebSocket("wss://mm-api.dnascanner.de");
+    this.socket = new WebSocket("wss://hm-api.dnascanner.de");
 
     this.initialize();
   }
