@@ -9,7 +9,7 @@ import { SocketService } from "../../app/app.socket-service";
 })
 export class ChatSidebarSearchButtonComponent {
   @Input() isSearch: boolean = false;
-  @Output() emitClick = new EventEmitter<boolean>(); 
+  @Output() emitClick = new EventEmitter<any>(); 
 
   onClick() {
     this.emitClick.emit();

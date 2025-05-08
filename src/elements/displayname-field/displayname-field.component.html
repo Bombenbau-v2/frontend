@@ -1,4 +1,10 @@
-<mat-form-field class="display-field">
+<!-- if no fail -->
+<mat-form-field *ngIf="!failState" class="display-field">
+    <mat-label class="display-field-text">Display Name</mat-label>
+    <input (input)="InputEvent($event)" class="input-text" matInput />
+  </mat-form-field>
+<!-- if fail -->
+<mat-form-field *ngIf="failState" class="display-field-error">
     <mat-label class="display-field-text">Display Name</mat-label>
     <input (input)="InputEvent($event)" class="input-text" matInput />
   </mat-form-field>

@@ -28,6 +28,9 @@ export class RegistrationFieldComponent {
   private userpassword = "";
   failMessage = "";
   successMessage = "";
+  displayFail: boolean = false;
+  passwordFail: boolean = false;
+  usertagFail: boolean = false;
 
   ws: WebSocket | undefined;
   isOpen: () => boolean;
@@ -57,20 +60,32 @@ export class RegistrationFieldComponent {
         case "malformed_hash": {
           this.failMessage =
             "Registration failed: an internal error has occured.";
+          this.displayFail = false;
+          this.passwordFail = false;
+          this.usertagFail = false;
           break;
         }
         case "no_special_characters": {
           this.failMessage =
             "Registration failed: forbidden characters <br>Display Name: only _ or -, letters, numbers and whitespace. <br>User Tag: only _ or -, letters, numbers).";
+          this.displayFail = true;
+          this.passwordFail = true;
+          this.usertagFail = true;
           break;
         }
         case "missing_fields": {
           this.failMessage = "Registration failed: fields left empty.";
+          this.displayFail = true;
+          this.passwordFail = true;
+          this.usertagFail = true;
           break;
         }
         case "tag_used": {
           this.failMessage =
             "Registration failed: this user tag is already used.";
+          this.displayFail = false;
+          this.passwordFail = false;
+          this.usertagFail = true;
           break;
         }
         default: {
@@ -79,7 +94,12 @@ export class RegistrationFieldComponent {
         }
       }
     } else {
+      this.displayFail = false;
+      this.passwordFail = false;
+      this.usertagFail = false;
       this.successMessage = "Registration successful, logging in...";
+      this.failMessage = "";
+      
       // Hash the password once again
       const passwordHash = shajs("sha256")
         .update(this.userpassword)
@@ -90,11 +110,11 @@ export class RegistrationFieldComponent {
       // Send login request
       const response = await login(this.ws!, this.usertag, passwordHash);
       console.log("Login", response.success ? "successful" : "failed");
-      if (response.success){
+      if (response.success) {
         this.router.navigate(["/chat"]);
-      }else{
+      } else {
         this.successMessage = "";
-        this.failMessage ="Login failed: please go to /login and try again.";
+        this.failMessage = "Login failed: please go to /login and try again.";
       }
     }
   }

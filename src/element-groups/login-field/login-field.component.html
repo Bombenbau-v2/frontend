@@ -1,7 +1,11 @@
 <div class="login-field">
   <p class="header2">Log in to chat</p>
-  <app-username-field (emitInput)="usertagEmitted($event)"></app-username-field>
+  <app-username-field
+    [failState]="usertagFail"
+    (emitInput)="usertagEmitted($event)"
+  ></app-username-field>
   <app-password-field
+    [failState]="passwordFail"
     (emitInput)="passwordEmitted($event)"
   ></app-password-field>
   <div class="centerhorizontal">
@@ -10,4 +14,6 @@
       (clickFunctionCalled)="buttonClicked()"
     ></app-credentials-enter-button>
   </div>
+  <p class="login-error" [innerHtml]="this.failMessage"></p>
+  <p class="login-success" [innerHtml]="this.successMessage"></p>
 </div>

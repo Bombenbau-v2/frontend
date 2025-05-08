@@ -13,4 +13,19 @@
     color: #e9eaed;
     width: 100%;
   }
+.username-field-failed {
+    & .username-field-text {
+      color: #d10047;
+      font-family: "Inter", sans-serif;
+      font-style: italic;
+      font-weight: 300;
+    }
+    & .input-text {
+      color: #e9eaed;
+      font-family: "Inter", sans-serif;
+      font-weight: 300;
+    }
+    color: #d70040;
+    width: 100%;
+  }
   

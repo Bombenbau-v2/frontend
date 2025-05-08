@@ -8,5 +8,5 @@
       ></app-chat-sidebar-search-button>
   </div>
   <app-new-conversation [enabled]=!searchIs></app-new-conversation>
-  <app-conversation-list [enabled]=searchIs></app-conversation-list>
+  <app-conversation-list [conversations]="conversations" [enabled]=searchIs></app-conversation-list>
 </div>

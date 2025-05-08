@@ -4,6 +4,8 @@
   flex-direction: row;
   justify-content: center;
   width: 90%;
+  gap: 0.2rem;
+  padding-left: 0.2rem;
 }
 .searchbar-field {
   & > .input-text {

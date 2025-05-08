@@ -42,14 +42,6 @@ export class SocketService {
 
         // console.log("Socket message: ", event.data);
       });
-      //Hash password
-      const passwordHash = shajs("sha256")
-        .update("test")
-        .digest("hex")
-        .toUpperCase();
-      // Ensure websocket is open
-      await this.waitOpen();
-      const responseLogin = await login(this.socket, "test", passwordHash);
     });
   };
 

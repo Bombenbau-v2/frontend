@@ -10,11 +10,15 @@
 }
 
 .search-button {
-  background-color: #93acff;
-  outline-color: #accbff;
+  outline: none;
+  border: none;
   & > img {
-    background-color: #93acff;
+    background: #353a41;
+    height: 90%;
   }
+  background: #353a41;
+  padding: 0px;
+  margin: 0px; 
 }
 
 .add-button {
@@ -25,4 +29,8 @@
     background-color: #a1ff79;
     
   }
+}
+
+:host{
+  background: none;
 }

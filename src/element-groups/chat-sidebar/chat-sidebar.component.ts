@@ -1,52 +1,124 @@
-import { Component } from "@angular/core";
+import { Component, resolveForwardRef } from "@angular/core";
 import { ChatSidebarSearchbarComponent } from "../../elements/chat-sidebar-searchbar/chat-sidebar-searchbar.component";
 import { ChatSidebarSearchButtonComponent } from "../../elements/chat-sidebar-search-button/chat-sidebar-search-button.component";
 import { SocketService } from "../../app/app.socket-service";
 import { UserExistByTagRequest } from "../../../../backend/types/ws";
-import { userExistByTag, login } from "../../app/app.api-handler";
+import { userExistByTag, listConversations } from "../../app/app.api-handler";
 import { setTokenSourceMapRange } from "typescript";
 import shajs from "sha.js";
 import { S } from "@angular/cdk/keycodes";
 import { ConversationListComponent } from "../conversation-list/conversation-list.component";
 import { NewConversationComponent } from "../../elements/new-conversation/new-conversation.component";
-
+import { Conversation } from "../conversation-list/conversation-list.component";
 @Component({
   selector: "app-chat-sidebar",
-  imports: [ChatSidebarSearchbarComponent, ChatSidebarSearchButtonComponent, ConversationListComponent, NewConversationComponent],
+  imports: [
+    ChatSidebarSearchbarComponent,
+    ChatSidebarSearchButtonComponent,
+    ConversationListComponent,
+    NewConversationComponent,
+  ],
   templateUrl: "./chat-sidebar.component.html",
-  styleUrl: "./chat-sidebar.component.scss"
+  styleUrl: "./chat-sidebar.component.scss",
 })
 export class ChatSidebarComponent {
+  //current Conversations
+  conversations: Conversation[] = [
+    {
+      displayname: "Placeholder",
+      usertag: "you should not be seeing this",
+      lastmessagetext: "placeholder",
+      lastmessagesender: ":(",
+    },
+  ];
+
   //Constants & Variables
   ws: WebSocket | undefined;
-  waitOpen: () => Promise<boolean>;
-  currentInput: string = "";
+  public currentInput: string = "";
   tsLastCheck: NodeJS.Timeout | null = null;
   searchIs: boolean = true;
 
   //Get Websocket
   constructor(socketService: SocketService) {
     this.ws = socketService.socket;
-    this.waitOpen = socketService.waitOpen;
   }
 
-  //With a delay of checkDelay, request a user with the tag same as the search option
+  async ngOnInit() {
+    this.conversations = await this.listFormattedConversations();
+  }
+
+  //With a delay of checkDelay, request a user with the tag same as the search option and update conversations list
   async inputReceived(input: string) {
     this.currentInput = input;
     if (this.tsLastCheck !== null) {
       clearTimeout(this.tsLastCheck);
     }
     this.tsLastCheck = setTimeout(async () => {
-    const response = await userExistByTag(this.ws!, this.currentInput);
-      if (response.exists) {
-        this.searchIs = false;
-      }else {
-        this.searchIs = true;
+      //Update conversations list to filter to input
+      this.conversations = await this.listFilteredConversations(
+        this.currentInput
+      );
+
+      if ( //check if user is already in conversations list: if not, check user exisetence
+        !this.conversations.some(
+          (e) =>
+            e.usertag.toLocaleLowerCase() ==
+            this.currentInput.toLocaleLowerCase()
+        )
+      ) {
+        //Check user exisetence
+        const response = await userExistByTag(this.ws!, this.currentInput);
+        if (response.exists) {
+          this.searchIs = false;
+        } else {
+          this.searchIs = true;
+        }
       }
     }, 300);
   }
 
   //Click logic
-  clickReceived() {
-  }
+  async clickReceived() {}
+
+  //Filter list of conversations down to only those including the search query
+  listFilteredConversations = async (
+    filter: string
+  ): Promise<Conversation[]> => {
+    let fullConversations = await this.listFormattedConversations();
+    let filteredConversations = fullConversations.filter(
+      (e) =>
+        e.usertag.toLowerCase().includes(filter.toLowerCase()) ||
+        e.displayname.toLowerCase().includes(filter.toLowerCase())
+    );
+    return filteredConversations;
+  };
+
+  //Convert request array to my array
+  listFormattedConversations = async (): Promise<Conversation[]> => {
+    const response = await listConversations(this.ws!);
+    let returnConversation: Conversation[] = [];
+    //Build conversation array
+    if (response.success) {
+      for (const conversation of response.conversations) {
+        //Add new value
+        returnConversation.push({
+          displayname: conversation.participant.name,
+          usertag: conversation.participant.tag,
+          lastmessagetext: conversation.lastMessage.text,
+          lastmessagesender: conversation.lastMessage.sender,
+        });
+      }
+      return returnConversation;
+    } else {
+      //In case of error, give error stuff
+      return [
+        {
+          displayname: "ERROR",
+          usertag: "An internal error has occured.",
+          lastmessagesender: "ERROR",
+          lastmessagetext: ":(",
+        },
+      ];
+    }
+  };
 }

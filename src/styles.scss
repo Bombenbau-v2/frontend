@@ -54,3 +54,9 @@ body {
   flex-direction: row;
   background: none;
 }
+
+html, body {
+  overflow-y: hidden;
+  height: 100%;
+  width: 100%;
+}

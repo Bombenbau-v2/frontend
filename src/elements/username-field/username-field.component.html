@@ -1,5 +1,8 @@
-<mat-form-field class="username-field">
-    <mat-label class="username-field-text">User tag</mat-label>
-    <input (input)="InputEvent($event)" class="input-text"  matInput/>
-  </mat-form-field>
-  
+<mat-form-field *ngIf="!failState" class="username-field">
+  <mat-label class="username-field-text">User tag</mat-label>
+  <input (input)="InputEvent($event)" class="input-text" matInput />
+</mat-form-field>
+<mat-form-field *ngIf="failState" class="username-field-failed">
+  <mat-label class="username-field-text">User tag</mat-label>
+  <input (input)="InputEvent($event)" class="input-text" matInput />
+</mat-form-field>

@@ -1,4 +1,4 @@
-import {LoginResponse, type LoginRequest, type SocketRequest, type UserExistByTagRequest, type UserExistByTagResponse} from "../../../backend/types/ws";
+import {ListConversationsRequest, ListConversationsResponse, LoginResponse, type LoginRequest, type SocketRequest, type UserExistByTagRequest, type UserExistByTagResponse} from "../../../backend/types/ws";
 import {RegisterResponse} from "../../../backend/types/http";
 
 //await message response
@@ -58,6 +58,19 @@ export const userExistByTag = async (ws: WebSocket, tag: string): Promise<UserEx
 	// Return response promise
 	return response;
 };
+export const listConversations = async(ws: WebSocket): Promise<ListConversationsResponse> => {
+	//Set up response handler
+	const response = waitForMessage(ws,"list_conversations") as Promise<ListConversationsResponse>;
+	//Request
+	const request: ListConversationsRequest = {};
+	ws.send(
+		JSON.stringify({
+			request: "/list_conversations",
+			data: request,
+		})
+	)
+	return response;
+}
 
 export const register = async (name: string, tag: string, password: string): Promise<RegisterResponse> => {
 	const response = await fetch("https://hm-api.dnascanner.de/register", {
