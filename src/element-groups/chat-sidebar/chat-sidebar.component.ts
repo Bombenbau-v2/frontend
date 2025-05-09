@@ -3,7 +3,7 @@ import { ChatSidebarSearchbarComponent } from "../../elements/chat-sidebar-searc
 import { ChatSidebarSearchButtonComponent } from "../../elements/chat-sidebar-search-button/chat-sidebar-search-button.component";
 import { SocketService } from "../../app/app.socket-service";
 import { UserExistByTagRequest } from "../../../../backend/types/ws";
-import { userExistByTag, listConversations } from "../../app/app.api-handler";
+import { userExistByTag, listConversations, sendMessageRequest } from "../../app/app.api-handler";
 import { setTokenSourceMapRange } from "typescript";
 import shajs from "sha.js";
 import { S } from "@angular/cdk/keycodes";
@@ -35,6 +35,7 @@ export class ChatSidebarComponent {
   public currentInput: string = "";
   tsLastCheck: NodeJS.Timeout | null = null;
   searchIs: boolean = true;
+  getUserTag: () => string; 
   //New Conversation User
   public newConversationUser: ClientUser = {name:"",tag:""};
 
@@ -44,6 +45,7 @@ export class ChatSidebarComponent {
   //Get Websocket
   constructor(socketService: SocketService) {
     this.ws = socketService.socket;
+    this.getUserTag = socketService.getUserTag;
   }
 
   async ngOnInit() {
@@ -59,7 +61,6 @@ export class ChatSidebarComponent {
     this.tsLastCheck = setTimeout(async () => {
       //Update conversations list to filter to input
       this.conversations = await this.listFilteredConversations(this.currentInput);
-
       if (
         //check if user is already in conversations list: if not, check user exisetence
         !this.conversations.some((e) => e.usertag.toLocaleLowerCase() == this.currentInput.toLocaleLowerCase())
@@ -78,8 +79,16 @@ export class ChatSidebarComponent {
 
   //Click logic
   async clickReceived(
+  ){
+     if (this.newConversationUser.tag !==""){
+      const response = await sendMessageRequest(this.ws!,"OPEN_CONVERSATION",this.newConversationUser.tag);
+      if (response.success){
+        this.emitConversationRequest.emit(this.newConversationUser.tag);
+        this.searchIs = true;
+      }
+     }
     
-  ) {}
+  }
 
   //Conversation Click Logic
   conversationClickReceived(userTag: string){

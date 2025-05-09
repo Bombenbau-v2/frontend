@@ -2,6 +2,6 @@
   <img src="/assets/icons/search.svg"  />
 </button>
 
-<button *ngIf = "!isSearch" onclick="onClick()" class="add-button">
+<button *ngIf = "!isSearch" (click)="onClick()" class="add-button">
   <img src="/assets/icons/person_add.svg" />
 </button>
