@@ -1,59 +1,74 @@
-
 .conversation-card {
-    outline: 3px solid #6a7481;
-    padding-left: 0.4rem;
-    border-radius: 5px;
-    padding: 0.3rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.3rem;
+  outline: 3px solid #6a7481;
+  padding-left: 0.4rem;
+  border-radius: 5px;
+  padding: 0.3rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.3rem;
+
+  transition: background-color 0.15s ease-in-out, outline-color 0.15s ease-in-out;
+
+  &:hover {
+    outline-color: #93acff;
+    cursor: pointer;
+    & .avatar {
+      margin: 0;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      outline: #93acff solid 3px;
+      transition: outline 0.15s ease-in-out;
+    }
   }
-  .username {
-    color: #e9eaed;
-    font-family: "Inter", sans-serif;
-    text-align: right;
-    font-weight: 400;
-    font-size: 22px;
-    margin: 0;
-  }
-  .usertag {
-    color: #e9eaed;
-    font-family: "Inter", sans-serif;
-    font-style: italic;
-    font-weight: 300;
-    text-align: right;
-    font-size: 12px;
-    margin: 0;
-  }
-  .avatar {
-    margin: 0;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    outline: #e9eaed solid 3px;
-  }
-  .avatar-container {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: row;
-    justify-content: left;
-    padding-left: 0.5rem;
-  }
-  .names-container {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    gap: 0.2rem;
-    justify-content: right;
-  }
+}
+.username {
+  color: #e9eaed;
+  font-family: "Inter", sans-serif;
+  text-align: right;
+  font-weight: 400;
+  font-size: 22px;
+  margin: 0;
+}
+.usertag {
+  color: #e9eaed;
+  font-family: "Inter", sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  text-align: right;
+  font-size: 12px;
+  margin: 0;
+}
+.avatar {
+  margin: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  outline: #e9eaed solid 3px;
+  transition: outline 0.15s ease-in-out;
+}
+.avatar-container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+  justify-content: left;
+  padding-left: 0.5rem;
+}
+.names-container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  gap: 0.2rem;
+  justify-content: right;
+}
 .conversation-list {
-    max-height: 92%;
-    overflow-y: scroll;
-    overflow-x: auto;
-    background: none;
-    display: flex;
-    flex-direction: column;
-    padding-right:0.5rem;
-    gap: 1rem;
+  max-height: 92%;
+  overflow-y: scroll;
+  overflow-x: auto;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  padding-right: 0.5rem;
+  gap: 1rem;
 }
