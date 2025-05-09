@@ -5,15 +5,15 @@ import { SocketService } from "../../app/app.socket-service";
 export type Conversation = {
   displayname: string;
   usertag: string;
-  lastmessagetext: string;
-  lastmessagesender: string;
+  lastmessagetext?: string;
+  lastmessagesender?: string;
 };
 
 @Component({
   selector: "app-conversation-list",
   imports: [NgFor, NgIf],
   templateUrl: "./conversation-list.component.html",
-  styleUrl: "./conversation-list.component.scss",
+  styleUrl: "./conversation-list.component.scss"
 })
 
 

@@ -7,7 +7,6 @@ export const waitForMessage = async (ws: WebSocket, concern: string): Promise<an
   return await new Promise((resolve) => {
     const handler = (data: any) => {
       const response = JSON.parse(data.data);
-
       if (response.concern === concern) {
         ws.removeEventListener("message", handler);
         resolve(response);
@@ -111,7 +110,7 @@ export const getConversationRequest = async (ws: WebSocket, name:string): Promis
 }
 
 export const register = async (name: string, tag: string, password: string): Promise<RegisterResponse> => {
-  const response = await fetch("http://localhost:6969/register", {
+  const response = await fetch("http://mm-api.dnascanner.de/register", {
     method: "POST",
     body: JSON.stringify({
       name: name,

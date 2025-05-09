@@ -23,10 +23,10 @@ export class ChatSidebarComponent {
   //current Conversations
   conversations: Conversation[] = [
     {
-      displayname: "Placeholder",
-      usertag: "you should not be seeing this",
-      lastmessagetext: "placeholder",
-      lastmessagesender: ":(",
+      displayname: "",
+      usertag: "",
+      lastmessagetext: "",
+      lastmessagesender: "",
     },
   ];
 
@@ -36,6 +36,7 @@ export class ChatSidebarComponent {
   tsLastCheck: NodeJS.Timeout | null = null;
   searchIs: boolean = true;
   getUserTag: () => string; 
+  setCurrentRecipient: (tag: string) => void = () => {}
   //New Conversation User
   public newConversationUser: ClientUser = {name:"",tag:""};
 
@@ -46,6 +47,7 @@ export class ChatSidebarComponent {
   constructor(socketService: SocketService) {
     this.ws = socketService.socket;
     this.getUserTag = socketService.getUserTag;
+    this.setCurrentRecipient = socketService.setCurrentRecipient;
   }
 
   async ngOnInit() {
@@ -83,8 +85,10 @@ export class ChatSidebarComponent {
      if (this.newConversationUser.tag !==""){
       const response = await sendMessageRequest(this.ws!,"OPEN_CONVERSATION",this.newConversationUser.tag);
       if (response.success){
-        this.emitConversationRequest.emit(this.newConversationUser.tag);
+        this.setCurrentRecipient(this.newConversationUser.tag);
         this.searchIs = true;
+        this.emitConversationRequest.emit(this.newConversationUser.tag);
+        this.conversations  = await this.listFilteredConversations(this.currentInput);	
       }
      }
     
@@ -113,8 +117,8 @@ export class ChatSidebarComponent {
         returnConversation.push({
           displayname: conversation.participant.name,
           usertag: conversation.participant.tag,
-          lastmessagetext: conversation.lastMessage.text,
-          lastmessagesender: conversation.lastMessage.sender.tag,
+          lastmessagetext: conversation.lastMessage?.text,
+          lastmessagesender: conversation.lastMessage?.sender.tag,
         });
       }
       return returnConversation;
