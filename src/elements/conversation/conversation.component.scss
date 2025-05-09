@@ -7,7 +7,7 @@
 
 .messagesWrapper{
   display:flex;
-  flex-direction: reverse-column;
+  flex-direction: column;
   overflow-y: scroll; 
   max-height: 90%;
   gap: 0.7rem;
