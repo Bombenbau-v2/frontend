@@ -11,12 +11,14 @@ import { Message } from "../../element-groups/chat/chat.component";
 export class ChatInputFieldComponent {
   private input = "";
   @Output() inputEmitter = new EventEmitter<string>();
+  @Output() enterButtonEmitter = new EventEmitter<string>();
   //Change input value when there is an input
   InputEvent(event: Event) {
     this.input = (event.target as HTMLInputElement).value;
   }
   //Emit current input upon button press
-  sendMessage() {
+  sendMessage(event: Event,isKeyboard: boolean) {
+      if(isKeyboard) event.preventDefault(); // Prevent form submission
     this.inputEmitter.emit(this.input);
   }
 }

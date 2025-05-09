@@ -4,10 +4,19 @@
     justify-content: left;
     gap: 0.4rem;
 }
-.messageBox{
-    display:flex;
-    flex-direction: row;
-    justify-content: left;
+
+.messagesWrapper{
+  display:flex;
+  flex-direction: reverse-column;
+  overflow-y: scroll; 
+  max-height: 90%;
+  gap: 0.7rem;
+}
+
+.messageBox {
+    display:flex; 
+    flex-direction: row; 
+    justify-content: left; 
     gap: 0.6rem;
 }
 .diplayname {
@@ -46,10 +55,17 @@ img {
     border-radius: 50%;
     background: none;
 }
-
+.usernamewrapper{
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    height: fit-content;
+}
 :host {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+    overflow-y: scroll;
     gap: 1.4rem;
     margin-bottom: 2rem;
 }

@@ -18,7 +18,6 @@ export class SocketService {
   constructor() {
     this._isOpen = false;
     this.socket = new WebSocket("ws://mm-api.dnascanner.de/");
-
     this.initialize();
   }
 
@@ -37,12 +36,8 @@ export class SocketService {
         console.log("Socket error: ", event);
       });
 
-      this.socket.addEventListener("message", (event) => { console.log(event.data);
+      this.socket.addEventListener("message", (event) => { console.log("message recieved:", event.data);
         try {
-          //Handle JSON data
-          const data = JSON.parse(event.data) as NewMessageNotification;
-          if (data.notify === "new_message") {
-           }
         } catch {
           if (event.data === "unauthorized") {
              //Handle non-JSON data
@@ -50,7 +45,7 @@ export class SocketService {
             this.router.navigate(["/login", "unauthorized"]);
           }
         }
-        // console.log("Socket message: ", event.data);
+         
       });
     });
   };

@@ -12,6 +12,7 @@ import { NewConversationComponent } from "../../elements/new-conversation/new-co
 import { Conversation } from "../conversation-list/conversation-list.component";
 import { EventEmitter } from "@angular/core";
 import { ClientUser } from "../../../../backend/types/misc";
+import { NewMessageNotification } from "../../../../backend/types/notify";
 
 @Component({
   selector: "app-chat-sidebar",
@@ -48,6 +49,7 @@ export class ChatSidebarComponent {
     this.ws = socketService.socket;
     this.getUserTag = socketService.getUserTag;
     this.setCurrentRecipient = socketService.setCurrentRecipient;
+    this.ws.addEventListener("message", (event) => this.newMessage(event));
   }
 
   async ngOnInit() {
@@ -78,6 +80,18 @@ export class ChatSidebarComponent {
       }
     }, 300);
   }
+
+//on new message, refresh conversation list
+async newMessage(event: MessageEvent) {
+    try {
+      //Handle JSON data
+      const data = JSON.parse(event.data) as NewMessageNotification;
+      if (data.notify === "new_message") {
+        this.conversations = await this.listFilteredConversations(this.currentInput);
+      }
+    } catch {}
+
+}
 
   //Click logic
   async clickReceived(

@@ -61,7 +61,5 @@ export class ChatComponent {
       this.messageSent,
       this.messageReceipient
     );
-    this.convChange.emit();
-    console.log(this.messageSent, this.messageReceipient);
   }
 }
