@@ -1,3 +1,9 @@
+.centerhorizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background: none;
+}
 .chatfieldwrapper {
     height: 100%;
     display: flex;

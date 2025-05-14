@@ -111,7 +111,7 @@ export const getConversationRequest = async (ws: WebSocket, name:string): Promis
 }
 
 export const register = async (name: string, tag: string, password: string): Promise<RegisterResponse> => {
-  const response = await fetch("http://mm-api.dnascanner.de/register", {
+  const response = await fetch("http://localhost:6969/register", {
     method: "POST",
     body: JSON.stringify({
       name: name,

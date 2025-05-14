@@ -3,10 +3,10 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'app-credentials-alternative',
   imports: [],
-  templateUrl: './credntials-alternative.component.html',
-  styleUrl: './credntials-alternative.component.scss'
+  templateUrl: './credentials-alternative.component.html',
+  styleUrl: './credentials-alternative.component.scss'
 })
-export class CredntialsAlternativeComponent {
+export class CredentialsAlternativeComponent {
   @Input() operation = "";
   @Input() text = "";
   @Input() url = "";
