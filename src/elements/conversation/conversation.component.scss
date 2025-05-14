@@ -21,23 +21,13 @@
   gap: 0.6rem;
   &:hover {
     background-color: rgba(244, 250, 255, 0.05);
-    & > .textbox {
-      & > .namediv {
-        & > .displayname,
-        & > .messagetext {
-          background-color: rgba(244, 250, 255, 0.05);
-        }
-      }
-      & > .messagedate {
-        background-color: rgba(244, 250, 255, 0.05);
-      }
-    }
   }
 }
 
 .diplayname {
   color: #e9eaed;
   font-family: "Inter", sans-serif;
+  background: none;
   font-weight: 400;
   font-size: 18px;
   margin: 0px;
@@ -46,6 +36,7 @@
   color: #e9eaed;
   font-family: "Inter", sans-serif;
   font-weight: 300;
+  background: none;
   font-size: 14px;
   margin: 0px;
 }
@@ -53,12 +44,14 @@
   color: #e9eaed;
   font-family: "Inter", sans-serif;
   font-weight: 200;
+  background: none;
   font-size: 12px;
   margin: 0px;
   margin-top: auto;
 }
 
 .namediv {
+  background: none;
   display: flex;
   flex-direction: row;
   justify-content: left;
@@ -66,9 +59,12 @@
 }
 
 img {
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
+  outline: #e9eaed solid 2px;
   background: none;
 }
 .usernamewrapper {
@@ -76,6 +72,13 @@ img {
   flex-direction: column-reverse;
   justify-content: flex-end;
   height: fit-content;
+  & > p {
+    color: #e9eaed;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    margin: 0px;
+  }
 }
 :host {
   display: flex;

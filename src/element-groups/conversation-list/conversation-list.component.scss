@@ -21,6 +21,24 @@
       outline: #93acff solid 3px;
       transition: outline 0.15s ease-in-out;
     }
+    & > .lastmessage-tooltip {
+      
+      visibility: visible;
+    }
+  }
+
+  & > .lastmessage-tooltip {    
+    color: #e9eaed;
+    background-color: #6a7481;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    margin: 0rem;
+    padding: 0.8rem 0rem;
+    position: absolute;
+    text-align: center;
+    border-radius: 8px;
+    z-index: 1;
+    visibility: hidden;
   }
 }
 .username {

@@ -1,13 +1,9 @@
 <div *ngIf="enabled" class="conversation-list">
-  <div *ngFor="let conversation of conversations" (click) ="onClick(conversation)" class="conversation-card" >
+  <div *ngFor="let conversation of conversations" (click)="onClick(conversation)" class="conversation-card">
     <a>
       <div class="horizontalflex">
         <div class="avatar-container">
-          <img
-            class="avatar"
-            src="http://localhost:6969/avatar/{{ conversation.usertag }}"
-            alt="Avatar"
-          />
+          <img class="avatar" src="http://localhost:6969/avatar/{{ conversation.usertag }}" alt="Avatar" />
         </div>
         <div class="names-container">
           <p class="username">{{ conversation.displayname }}</p>
@@ -15,5 +11,13 @@
         </div>
       </div>
     </a>
+    <!-- Display last message if one exists -->
+    <p *ngIf="conversation.lastmessagetext !== undefined" class="lastmessage-tooltip">
+      {{ conversation.lastmessagesender}}:
+      {{ conversation.lastmessagetext }}
+    </p>
+    <p *ngIf="conversation.lastmessagetext === undefined" class="lastmessage-tooltip">
+      You have no messages with this user.
+    </p>
   </div>
 </div>
