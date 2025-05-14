@@ -22,14 +22,20 @@ export class ChatPageComponent {
     ],
     messages: [],
   };
-  lastUserTag: string = "";
+
   ws: WebSocket | undefined;
+  setCurrentRecipient: (tag: string) => void;
+  getCurrentRecipient: () => string;
+
   constructor(socketService: SocketService) {
     this.ws = socketService.socket;
+    this.setCurrentRecipient = socketService.setCurrentRecipient;
+    this.getCurrentRecipient = socketService.getCurrentRecipient;
   }
 
   async conversationChanged(){
-    const response = await getConversationRequest(this.ws!, this.lastUserTag);
+    const response = await getConversationRequest(this.ws!,this.getCurrentRecipient());
+    console.log("Conversation edited:", this.getCurrentRecipient());
     if (response.success) {
       if (response.conversation !== undefined) {
         this.conversation = response.conversation;
@@ -41,7 +47,8 @@ export class ChatPageComponent {
     if (response.success) {
       if (response.conversation !== undefined) {
         this.conversation = response.conversation;
-        this.lastUserTag = userTag;
+        this.setCurrentRecipient(userTag);
+        console.log("Conversation clicked:", userTag);
       }
     }
   }

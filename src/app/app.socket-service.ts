@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { login } from "./app.api-handler";
 import shajs from "sha.js";
 import { waitForMessage } from "./app.api-handler";
+import { NewMessageNotification } from "../../../backend/types/notify"
 
 @Injectable({
   providedIn: "root",
@@ -12,11 +13,11 @@ export class SocketService {
   private _isOpen: boolean;
   public router = inject(Router);
   private _userTag: string = "";
+  private _currentRecipient : string = "";
 
   constructor() {
     this._isOpen = false;
-    this.socket = new WebSocket("ws://localhost:6969/");
-
+    this.socket = new WebSocket("ws://mm-api.dnascanner.de/");
     this.initialize();
   }
 
@@ -35,13 +36,16 @@ export class SocketService {
         console.log("Socket error: ", event);
       });
 
-      this.socket.addEventListener("message", (event) => {
-        if (event.data === "unauthorized") {
-          console.log("Unauthorized, redirecting to login page");
-          this.router.navigate(["/login","unauthorized"]);
+      this.socket.addEventListener("message", (event) => { console.log("message recieved:", event.data);
+        try {
+        } catch {
+          if (event.data === "unauthorized") {
+             //Handle non-JSON data
+            console.log("Unauthorized, redirecting to login page");
+            this.router.navigate(["/login", "unauthorized"]);
+          }
         }
-
-        // console.log("Socket message: ", event.data);
+         
       });
     });
   };
@@ -52,13 +56,20 @@ export class SocketService {
 
   public setUserTag = (tag: string): void => {
     this._userTag = tag;
-  }
+  };
 
   public getUserTag = (): string => {
     return this._userTag;
-  }
+  };
 
-  
+  public setCurrentRecipient = (recipient: string): void => {
+    this._currentRecipient = recipient;
+  };
+
+  public getCurrentRecipient = (): string => {
+    return this._currentRecipient;
+  };
+
   public waitOpen = async (): Promise<boolean> => {
     return await new Promise<boolean>(async (resolve) => {
       while (!this._isOpen) {

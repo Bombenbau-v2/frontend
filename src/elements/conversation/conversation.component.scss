@@ -1,15 +1,40 @@
-.textBox{
-    display:flex;
-    flex-direction: column;
-    justify-content: left;
-    gap: 0.4rem;
+.textBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  gap: 0.4rem;
+  background: none;
 }
-.messageBox{
-    display:flex;
-    flex-direction: row;
-    justify-content: left;
-    gap: 0.6rem;
+
+.messagesWrapper {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  max-height: 90%;
+  gap: 0.7rem;
 }
+
+.messageBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  gap: 0.6rem;
+  &:hover {
+    background-color: rgba(244, 250, 255, 0.05);
+    & > .textbox {
+      & > .namediv {
+        & > .displayname,
+        & > .messagetext {
+          background-color: rgba(244, 250, 255, 0.05);
+        }
+      }
+      & > .messagedate {
+        background-color: rgba(244, 250, 255, 0.05);
+      }
+    }
+  }
+}
+
 .diplayname {
   color: #e9eaed;
   font-family: "Inter", sans-serif;
@@ -17,7 +42,7 @@
   font-size: 18px;
   margin: 0px;
 }
-.messagetext{
+.messagetext {
   color: #e9eaed;
   font-family: "Inter", sans-serif;
   font-weight: 300;
@@ -30,26 +55,33 @@
   font-weight: 200;
   font-size: 12px;
   margin: 0px;
-  margin-top:auto;
+  margin-top: auto;
 }
 
-.namediv{
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    gap: 0.5rem;
+.namediv {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  gap: 0.5rem;
 }
 
 img {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    background: none;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: none;
 }
-
+.usernamewrapper {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  height: fit-content;
+}
 :host {
-    display: flex;
-    flex-direction: column;
-    gap: 1.4rem;
-    margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow-y: scroll;
+  gap: 1.4rem;
+  margin-bottom: 2rem;
 }
