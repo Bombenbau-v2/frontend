@@ -113,8 +113,8 @@ export class ChatSidebarComponent {
         returnConversation.push({
           displayname: conversation.participant.name,
           usertag: conversation.participant.tag,
-          lastmessagetext: conversation.lastMessage.text,
-          lastmessagesender: conversation.lastMessage.sender.tag,
+          lastmessagetext: conversation.lastMessage?.text,
+          lastmessagesender: conversation.lastMessage?.sender.tag,
         });
       }
       return returnConversation;

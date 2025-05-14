@@ -40,6 +40,7 @@ export const login = (ws: WebSocket, tag: string, password: string): Promise<Log
   return response;
 };
 
+//Returns if a user exists by their usertag
 export const userExistByTag = async (ws: WebSocket, tag: string): Promise<UserExistByTagResponse> => {
   // Set up response handler
   const response = waitForMessage(ws, "user_exist_by_tag") as Promise<UserExistByTagResponse>;
@@ -54,12 +55,12 @@ export const userExistByTag = async (ws: WebSocket, tag: string): Promise<UserEx
       request: "/user_exist_by_tag",
       data: request,
     } as SocketRequest)
-  );
+    )
 
   // Return response promise
   return response;
 };
-
+//Returns a list of conversations user is active in
 export const listConversations = async (ws: WebSocket): Promise<ListConversationsResponse> => {
   //Set up response handler
   const response = waitForMessage(ws, "list_conversations") as Promise<ListConversationsResponse>;

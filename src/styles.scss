@@ -1,42 +1,31 @@
 @use "@angular/material" as mat;
-/* You can add global styles to this file, and also import other style files */
 * {
+  color: #e9eaed;
   background-color: #25282d;
   font-family: "Inter", sans-serif;
 }
-
-body {
+html, body {
+  overflow-y: hidden;
+  height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
 }
-
-.paragraph {
-  color: #e9eaed;
-  font-family: "Inter", sans-serif;
-  font-weight: 300;
-  font-size: 28px;
-}
-.header1 {
+.site-title {
   color: #e9eaed;
   font-family: "Inter", sans-serif;
   font-weight: 600;
   font-size: 52px;
   text-align: center;
 }
-.header2 {
+.side-sub-title {
   color: #e9eaed;
   font-family: "Inter", sans-serif;
   font-weight: 400;
   font-size: 40px;
   text-align: center;
 }
-.header3 {
-  color: #e9eaed;
-  font-family: "Inter", sans-serif;
-  font-weight: 400;
-  font-size: 32px;
-}
+// Generic flex boxes
 .centerhorizontal {
   display: flex;
   flex-direction: row;
@@ -48,15 +37,8 @@ body {
   flex-direction: column;
   background: none;
 }
-
 .horizontalflex {
   display: flex;
   flex-direction: row;
   background: none;
-}
-
-html, body {
-  overflow-y: hidden;
-  height: 100%;
-  width: 100%;
 }

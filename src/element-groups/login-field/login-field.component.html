@@ -1,19 +1,7 @@
-<div class="login-field">
-  <p class="header2">Log in to chat</p>
-  <app-username-field
-    [failState]="usertagFail"
-    (emitInput)="usertagEmitted($event)"
-  ></app-username-field>
-  <app-password-field
-    [failState]="passwordFail"
-    (emitInput)="passwordEmitted($event)"
-  ></app-password-field>
-  <div class="centerhorizontal">
-    <app-credentials-enter-button
-      name="Login"
-      (clickFunctionCalled)="buttonClicked()"
-    ></app-credentials-enter-button>
-  </div>
-  <p class="login-error" [innerHtml]="this.failMessage"></p>
-  <p class="login-success" [innerHtml]="this.successMessage"></p>
-</div>
+<p class="side-sub-title">Log in to chat</p>
+<app-username-field [failState]="usertagFail" (emitInput)="usertagEmitted($event)"></app-username-field>
+<app-password-field [failState]="passwordFail" (emitInput)="passwordEmitted($event)"></app-password-field>
+<app-credentials-enter-button name="Login" (clickFunctionCalled)="buttonClicked()"></app-credentials-enter-button>
+<!-- Display different message depending on if a login succeeds or fails -->
+<p class="login-error" [innerHtml]="this.failMessage"></p>
+<p class="login-success" [innerHtml]="this.successMessage"></p>

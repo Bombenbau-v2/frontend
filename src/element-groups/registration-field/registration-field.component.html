@@ -1,25 +1,9 @@
 <div class="registration-field">
-  <p class="header2">Please register to chat</p>
-  <app-displayname-field
-    [failState]="displayFail"
-    (emitInput)="displaynameEmitted($event)"
-  ></app-displayname-field>
-  <app-username-field
-    [failState]="usertagFail"
-    (emitInput)="usertagEmitted($event)"
-  ></app-username-field>
-  <app-password-field
-    [failState]="passwordFail"
-    (emitInput)="passwordEmitted($event)"
-  ></app-password-field>
-  <div class="centerhorizontal">
-    <app-credentials-enter-button
-      name="Register"
-      (clickFunctionCalled)="buttonClicked()"
-    ></app-credentials-enter-button>
-  </div>
-  <div class="centerhorizontal">
-    <p class="registration-error" [innerHtml]="this.failMessage"></p>
-    <p class="registration-success" [innerHtml]="this.successMessage"></p>
-  </div>
+  <p class="side-sub-title">Please register to chat</p>
+  <app-displayname-field [failState]="displayFail" (emitInput)="displaynameEmitted($event)"></app-displayname-field>
+  <app-username-field [failState]="usertagFail" (emitInput)="usertagEmitted($event)"></app-username-field>
+  <app-password-field [failState]="passwordFail" (emitInput)="passwordEmitted($event)"></app-password-field>
+  <app-credentials-enter-button name="Register" (clickFunctionCalled)="buttonClicked()"></app-credentials-enter-button>
+  <p class="registration-error" [innerHtml]="this.failMessage"></p>
+  <p class="registration-success" [innerHtml]="this.successMessage"></p>
 </div>
